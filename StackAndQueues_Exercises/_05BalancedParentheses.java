@@ -9,30 +9,30 @@ public class _05BalancedParentheses {
         char[] brackets = scanner.nextLine().toCharArray();
 
         ArrayDeque<Character> openBrackets = new ArrayDeque<>();
-        ArrayDeque<Character> closedBrackets = new ArrayDeque<>();
-        for (int i = 0; i < brackets.length; i++) {
-            char currentBracket = brackets[i];
+
+        boolean balanced = true;
+        for (char currentBracket : brackets) {
             if (currentBracket == '(' || currentBracket == '{' || currentBracket == '[') {
-                openBrackets.push(brackets[i]);
-            } else if (currentBracket == ')' || currentBracket == '}' || currentBracket == ']') {
-                closedBrackets.offer(brackets[i]);
-            }
-        }
-        boolean isNotBalanced = true;
-        if (openBrackets.size() != closedBrackets.size() && (openBrackets.size() > 0) && (closedBrackets.size() > 0)) {
-            isNotBalanced = false;
-        } else {
-            while (openBrackets.size() != 0){
-                char open = openBrackets.pop();
-                char closed = closedBrackets.poll();
-                if ((open == '(' && closed == ')') || (open == '{' && closed == '}') || (open == '[' && closed == ']')) {
-                } else {
-                    isNotBalanced = false;
+                openBrackets.push(currentBracket);
+            } else if ((currentBracket == ')' || currentBracket == '}' || currentBracket == ']')) {
+                if (openBrackets.isEmpty()){
+                    balanced = false;
                     break;
                 }
+                    char open = openBrackets.pop();
+                    if (open == '(' && currentBracket != ')'){
+                        balanced = false;
+                        break;
+                    } else if (open == '{' && currentBracket != '}'){
+                        balanced = false;
+                        break;
+                    }else if (open == '[' && currentBracket != ']'){
+                        balanced = false;
+                        break;
+                    }
             }
         }
-        if (isNotBalanced) {
+        if (balanced && openBrackets.isEmpty()) {
             System.out.println("YES");
         } else {
             System.out.println("NO");
